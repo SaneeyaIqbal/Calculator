@@ -6,104 +6,16 @@ import './App.css';
 class Calculate extends Component {
   constructor(props){
     super(props);
+    let temp,operator;
     this.state={
       item:this.props.item
     };
-    this.One=this.One.bind(this);
-    this.Two=this.Two.bind(this);
-    this.Three=this.Three.bind(this);
-    this.Four=this.Four.bind(this);
-    this.Five=this.Five.bind(this);
-    this.Six=this.Six.bind(this);
-    this.Seven= this.Seven.bind(this);
-    this.Eight=this.Eight.bind(this);
-    this.Nine=this.Nine.bind(this);
-    this.Zero=this.Zero.bind(this);
+    
+    this.numPad=this.numPad.bind(this);
+    this.store=this.store.bind(this);
+    this.result=this.result.bind(this);
     this.takeQuantity=this.takeQuantity.bind(this);
   }
-
-    // One (){
-    //     this.setState(
-    //       {
-    //         item:this.state.item  +'1'
-    //       }
-    //     );
-    //   }
-    
-    // Two (){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '2'
-    //       }
-    //     );
-    //   }
-    
-
-    // Three (){
-    //     this.setState(
-    //       {
-    //         item:this.state.item +'3'
-    //       }
-    //     );
-    //   }
-
-    // Four(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '4'
-    //       }
-    //     );
-    //   }
-    
-    
-    // Five(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '5'
-    //       }
-    //     );
-    //   }
-    
-    // Six(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '6'
-    //       }
-    //     );
-    //   }
-
-    // Seven(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '7'
-    //       }
-    //     );
-    //   }
-    
-    // Eight(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '8'
-    //       }
-    //     );
-    //   }
-    
-    
-    // Nine(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '9'
-    //       }
-    //     );
-    //   }
-    
-    // Zero(){
-    //     this.setState(
-    //       {
-    //         item:this.state.item + '0'
-    //       }
-    //     );
-    //   }
 
       takeQuantity(event){
         let item = event.target.value;
@@ -111,33 +23,82 @@ class Calculate extends Component {
           this.setState({
             item:parseInt(item)
           });
+        } 
+        else {
+          this.setState({
+            item:parseInt(0)
+          });
         }
-      
-      
       }
 
-  render()  {
+      clear(){
+        this.setState({
+          item:0
+        });
+      }
+      numPad(item) {
+        this.setState ({
+          item:this.state.item + item
+        });
+      }
+
+      store(operator) {
+        this.temp = this.state.item
+        this.operator = operator
+        
+        this.setState({
+          item:0
+        });
+        }
+      
+      result() {
+        if (this.operator === '1'){
+        this.setState ({
+          item : parseInt(this.temp) + parseInt(this.state.item)
+        });
+      }
+        else if (this.operator === '2'){
+          this.setState ({
+            item : parseInt(this.temp) - parseInt(this.state.item)
+          });
+        }
+        else if (this.operator === '3'){
+          this.setState ({
+            item: parseInt(this.temp) * parseInt(this.state.item)
+          });
+        }
+        else if (this.operator === '4'){
+          this.setState ({
+            item : parseInt(this.temp) / parseInt(this.state.item)
+          });
+        }
+      }
+
+  render() {
     return (
-        <div className="name">
+        <div className="body">
           <input className="input" type="text" onChange={this.takeQuantity} value={this.state.item}/>
           <div className="name">
-            <button onClick={() => this.setState({item:this.state.item+'9'})} className = "button" type="button">9</button>
-            <button onClick={() => this.setState({item:this.state.item+'8'})} className = "button">8</button>
-            <button onClick={() => this.setState({item:this.state.item+'7'})}className = "button">7</button><br />
-            <button onClick={() => this.setState({item:this.state.item+'6'})} className = "button">6</button>
-            <button onClick={() => this.setState({item:this.state.item+'5'})}className = "button">5</button>
-            <button onClick={() => this.setState({item:this.state.item+'4'})} className = "button">4</button><br />
-            <button onClick={() => this.setState({item:this.state.item+'3'})} className = "button">3</button>
-            <button onClick={() => this.setState({item:this.state.item+'2'})} className = "button">2</button>
-            <button onClick={() => this.setState({item:this.state.item+'1'})}className="button" type="button">1</button><br />
-            <button className="name">-</button>
-            <button onClick={() => this.setState({item:this.state.item+'0'})} className = "button">0</button>
-            <button className="name">-</button>
+            <button onClick={(event) => this.numPad('9')} className="button">9</button>
+            <button onClick={(event) => this.numPad('8')} className="button">8</button>
+            <button onClick={(event) => this.numPad('7')} className="button">7</button><br />
+            <button onClick={(event) => this.numPad('6')} className="button">6</button>
+            <button onClick={(event) => this.numPad('5')} className="button">5</button>
+            <button onClick={(event) => this.numPad('4')} className="button">4</button><br />
+            <button onClick={(event) => this.numPad('3')} className="button">3</button>
+            <button onClick={(event) => this.numPad('2')} className="button">2</button>
+            <button onClick={(event) => this.numPad('1')} className="button" type="button">1</button><br />
+            <button onClick={(event) => this.store('1')} className="button">+</button>
+            <button onClick={(event) => this.numPad('0')} className="button">0</button>
+            <button onClick={this.result} className="button">=</button><br />
+            <button onClick={(event) => this.store('2')} className="button">-</button>
+            <button onClick={(event) => this.store('3')} className="button">*</button>
+            <button onClick={(event) => this.store('4')} className="button">/</button>
+            <button onClick={(event) => this.clear()} className="button">C</button>
         </div>
         </div>
- 
     )
-  };
+  }
 }
 
 class App extends React.Component {
